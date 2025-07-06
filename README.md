@@ -1,4 +1,11 @@
 # aicookbook
+## virtual env
+pyenv activate aicookbook
+pyenv deactivate aicookbook
+
+ls ~/.pyenv/versions
+
+
 
 ## Anthropic QuickStart
 
