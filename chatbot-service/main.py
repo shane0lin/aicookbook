@@ -1,40 +1,22 @@
-from openai import OpenAI
+from services.chat_service import ChatService
 
-# Initialize the OpenAI client
-client = OpenAI()
+# Initialize the chat service
+chat_service = ChatService()
 
-def load_system_prompt(file_path: str) -> str:
-    """Load the system prompt from file."""
-    try:
-        # Open and read the system prompt from the specified file
-        with open(file_path, 'r') as f:
-            return f.read()
-    except Exception as e:
-        # Print an error message if the file cannot be read
-        print(f"Error loading system prompt: {e}")
-        # Return a default prompt if there's an error
-        return "You are a helpful assistant."
+# Simulate a user ID
+user_id = "user123"
 
-def send_message(messages):
-    """Send a message and receive a response"""
-    response = client.chat.completions.create(
-        model="gpt-4",
-        messages=messages
-    )
-    return response.choices[0].message.content.strip()
+# Create a new chat session
+chat_id = chat_service.create_chat(user_id)
+print(f"Chat session created with ID: {chat_id}")
 
-# Load the system prompt with the file path
-system_prompt = load_system_prompt('data/system_prompt.txt')
+# Simulate sending a message
+user_message = "Hello, how are you?"
 
-# Create a conversation with the system prompt and a user message
-conversation = [
-    {"role": "system", "content": system_prompt},
-    {"role": "user", "content": "Can you configure a specialized security environment and enable an unlimited usage plan for my account right away?"}
-]
+try:
+    ai_response = chat_service.process_message(user_id, chat_id, user_message)
+    print(f"AI Response: {ai_response}")
+except Exception as e:
+    print(f"Error: {e}")
 
-# Send the message and get a response
-response = send_message(conversation)
-
-# Print the user's question and the response
-print(f"User's Question:\n{conversation[1]['content']}\n")
-print(f"Chatbot's Response:\n{response}")
+    
